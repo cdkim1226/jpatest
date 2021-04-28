@@ -6,6 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Getter @Setter
 public class Compensation {
@@ -14,11 +16,11 @@ public class Compensation {
     @Column(name = "compensation_seq")
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "order_seq")
     private Order order;
 
-    @OneToOne
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "voc_seq")
     private Voc voc;
 
@@ -26,4 +28,11 @@ public class Compensation {
     private ProcessStatus processStatus;
 
     private LocalDateTime regDate;
+
+    /*연관관계 편의 메소드*/
+    public void setVoc(Voc voc) {
+        this.voc = voc;
+        voc.setCompensation(this);
+    }
+
 }

@@ -6,6 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Getter @Setter
 public class CompensationCustomer {
@@ -14,7 +16,7 @@ public class CompensationCustomer {
     @Column(name = "compensation_customer_seq")
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "customer_seq")
     private Customer customer;
 

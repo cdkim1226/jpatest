@@ -6,6 +6,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Getter @Setter
 public class ManagerPenalty {
@@ -14,15 +16,15 @@ public class ManagerPenalty {
     @Column(name = "manager_penalty_seq")
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "manager_seq")
     private Manager manager;
 
-    @OneToOne
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "compensation_seq")
     private Compensation compensation;
 
-    @OneToOne
+    @OneToOne(fetch = LAZY)
     @JoinColumn(name = "order_seq")
     private Order order;
 
