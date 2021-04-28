@@ -1,8 +1,9 @@
-package com.example.jpatest;
+package com.example.jpatest.domain;
 
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,6 +13,10 @@ import javax.persistence.Id;
 public class Manager {
 
     @Id @GeneratedValue
-    private Long managerSeq;
-    private String mName;
+    @Column(name = "manager_seq")
+    private Long id;
+
+    @Column(name = "mName")
+    private String name;
+
 }

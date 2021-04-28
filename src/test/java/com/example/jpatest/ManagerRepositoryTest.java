@@ -1,5 +1,6 @@
 package com.example.jpatest;
 
+import com.example.jpatest.domain.Manager;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -21,15 +22,15 @@ public class ManagerRepositoryTest {
     public void testManager() throws Exception {
         //given
         Manager manager = new Manager();
-        manager.setMName("managerA");
+        manager.setName("managerA");
 
         //when
         Long savedId = managerRepository.save(manager);
         Manager findManager = managerRepository.find(savedId);
 
         //then
-        Assertions.assertThat(findManager.getManagerSeq()).isEqualTo(manager.getManagerSeq());
-        Assertions.assertThat(findManager.getMName()).isEqualTo(manager.getMName());
+        Assertions.assertThat(findManager.getId()).isEqualTo(manager.getId());
+        Assertions.assertThat(findManager.getName()).isEqualTo(manager.getName());
         Assertions.assertThat(findManager).isEqualTo(manager);
     }
 }

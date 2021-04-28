@@ -1,5 +1,6 @@
 package com.example.jpatest;
 
+import com.example.jpatest.domain.Manager;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -13,10 +14,10 @@ public class ManagerRepository {
 
     public Long save(Manager manager) {
         em.persist(manager);
-        return manager.getManagerSeq();
+        return manager.getId();
     }
 
-    public Manager find(Long managerSeq) {
-        return em.find(Manager.class, managerSeq);
+    public Manager find(Long id) {
+        return em.find(Manager.class, id);
     }
 }
