@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Getter @Setter
 public class VocForm {
 
-    @NotNull
     private String vocResponsibility;
 
     private String vocNote;
