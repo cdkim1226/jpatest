@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<style>
+  .fieldError {
+    border-color: #bd2130;
+  }
+</style>
+<body>
+<div class="container">
+  <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+  <form role="form" action="/voc/new" th:object="${vocForm}"
+        method="post">
+    <div class="form-group">
+      <label th:for="vocResponsibility">귀책</label>
+      <input type="text" th:field="*{vocResponsibility}" class="form-control"
+             placeholder="귀책"
+             th:class="${#fields.hasErrors('vocResponsibility')}? 'form-controlfieldError' : 'form-control'">
+      <p th:if="${#fields.hasErrors('vocResponsibility')}"
+         th:errors="*{vocResponsibility}">Incorrect date</p>
+    </div>
+    <div class="form-group">
+      <label th:for="vocNote"></label>
+      <input type="text" th:field="*{vocNote}" class="form-control"placeholder="귀책내용">
+    </div>
+    <div class="form-group">
+      <label th:for="sellerCost">판매가</label>
+      <input type="text" th:field="*{sellerCost}" class="form-control"
+             placeholder="판매가 입력">
+    </div>
+    <div class="form-group">
+      <label th:for="manufacturingCost">제조원가</label>
+      <input type="text" th:field="*{manufacturingCost}" class="form-control"
+             placeholder="제조원가 입력하세요">
+    </div>
+    <div class="form-group">
+      <label th:for="deliveryCost">배송비</label>
+      <input type="text" th:field="*{deliveryCost}" class="form-control"
+             placeholder="배송비 입력하세요">
+    </div>
+    <div class="form-group">
+      <label th:for="compensateExpense">배상비용</label>
+      <input type="text" th:field="*{compensateExpense}" class="form-control"
+             placeholder="배상비용 입력하세요">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <br/>
+  <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>
