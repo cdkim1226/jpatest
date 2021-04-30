@@ -35,4 +35,16 @@ public class Compensation {
         voc.setCompensation(this);
     }
 
+    public static Compensation createCompensation(Voc voc, Order order) {
+        Compensation compensation = new Compensation();
+
+        compensation.setVoc(voc);
+        compensation.setOrder(order);
+        compensation.setProcessStatus(ProcessStatus.COMP);
+        compensation.setRegDate(LocalDateTime.now());
+
+        return compensation;
+
+    }
+
 }
