@@ -9,10 +9,7 @@ import com.example.jpatest.service.VocService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,13 +39,14 @@ public class CompensationController {
                                @RequestParam("count") int count) {
 
         compensationService.compensation(vocSeq, orderSeq, count);
-        return "redirect:/compensations";
+        return "redirect:/compensationList";
     }
 
-
-
-    @GetMapping("compensation/{compensationSeq}/edit")
-    public String updateCompensation(@PathVariable("id") Long id, Model model) {
-        return "";
+    @GetMapping("/compensationList")
+    public String list(Model model) {
+        List<Compensation> compensations = compensationService.findCompensationList();
+        model.addAttribute("compensations", compensations);
+        return "compensation/compensationList";
     }
+
 }

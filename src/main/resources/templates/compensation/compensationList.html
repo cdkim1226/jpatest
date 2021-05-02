@@ -1,10 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
 <body>
-
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>배상seq</th>
+                <th>주문번호</th>
+                <th>판매가</th>
+                <th>제조원가</th>
+                <th>배상비용</th>
+                <th>처리상태</th>
+                <th>등록일</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="compensation : ${compensations}">
+                <td th:text="${compensation.id}"></td>
+                <td th:text="${compensation.order.orderNum}"></td>
+                <td th:text="${compensation.voc.sellerCost}"></td>
+                <td th:text="${compensation.voc.manufacturingCost}"></td>
+                <td th:text="${compensation.voc.compensateExpense}"></td>
+                <td th:text="${compensation.processStatus}"></td>
+                <td th:text="${compensation.regDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
 </body>
+<script>
+    function cancel(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/orders/" + id + "/cancel");
+        document.body.appendChild(form);
+        form.submit();
+    }</script>
 </html>
