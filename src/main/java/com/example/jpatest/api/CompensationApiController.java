@@ -2,12 +2,13 @@ package com.example.jpatest.api;
 
 
 import com.example.jpatest.domain.Compensation;
+import com.example.jpatest.domain.Voc;
 import com.example.jpatest.service.CompensationService;
+import com.example.jpatest.service.VocService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -16,36 +17,90 @@ import javax.validation.Valid;
 public class CompensationApiController {
 
     private final CompensationService compensationService;
+    private final VocService vocService;
 
-    @PostMapping("/api/v1/compensations")
-    public CreateCompensationResponse saveCompensationV1(@RequestBody @Valid Compensation compensation) {
-        Long insert = compensationService.insert(compensation);
-        return new CreateCompensationResponse(insert);
+//    @PostMapping("/api/v1/compensations")
+//    public CreateCompensationResponse saveCompensationV1(@RequestBody @Valid Compensation compensation) {
+//        Long insert = compensationService.insert(compensation);
+//        return new CreateCompensationResponse(insert);
+//    }
+//
+//    @PostMapping("/api/v2/compensations")
+//    public CreateCompensationResponse saveCompensationV2(@RequestBody @Valid CreateCompensationRequest request) {
+//
+//        Compensation compensation = new Compensation();
+//        compensation.setId(request.getId());
+//
+//        Long id = compensationService.insert(compensation);
+//        return new CreateCompensationResponse(id);
+//    }
+
+    @PostMapping("/api/v2/voc")
+    public CreateVocResponse saveVocV2(@RequestBody @Valid CreateVocRequest request) {
+
+        Voc voc = new Voc();
+        voc.setVocResponsibility(request.getVocResponsibility());
+
+        Long id = vocService.insert(voc);
+        return new CreateVocResponse(id);
     }
 
-    @PostMapping("/api/v2/compensations")
-    public CreateCompensationResponse saveCompensationV2(@RequestBody @Valid CreateCompensationRequest request) {
+    @PutMapping("/api/v2/voc/{id}")
+    public UpdateVocResponse updateVocV2(@PathVariable("id") Long id,
+                                         @RequestBody @Valid UpdateVocRequest request) {
 
-        Compensation compensation = new Compensation();
-        compensation.setId(request.getId());
-
-        compensationService.insert(compensation);
-        return new CreateCompensationResponse();
+        vocService.update(id, request.getVocResponsibility());
+        Voc findVoc = vocService.findOne(id);
+        return new UpdateVocResponse(findVoc.getId(), findVoc.getVocResponsibility());
     }
 
     @Data
-    static class CreateCompensationRequest {
+    static class UpdateVocRequest {
+        private String vocResponsibility;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class UpdateVocResponse {
         private Long id;
+        private String vocResponsibility;
     }
 
 
+
     @Data
-    static class CreateCompensationResponse {
+    static class CreateVocRequest {
+        private String vocResponsibility;
+    }
+
+    @Data
+    static class CreateVocResponse {
         private Long id;
 
-        public CreateCompensationResponse(Long id) {
+        public CreateVocResponse(Long id) {
             this.id = id;
         }
     }
+
+
+
+
+
+
+
+//    @Data
+//    static class CreateCompensationRequest {
+//        private Long id;
+//    }
+//
+//
+//    @Data
+//    static class CreateCompensationResponse {
+//        private Long id;
+//
+//        public CreateCompensationResponse(Long id) {
+//            this.id = id;
+//        }
+//    }
 
 }

@@ -35,4 +35,10 @@ public class VocService {
     public Voc findOne(Long vocSeq) {
         return vocRepository.findOne(vocSeq);
     }
+
+    @Transactional
+    public void update(Long id, String vocResponsibility) {
+        Voc voc = vocRepository.findOne(id);
+        voc.setVocResponsibility(vocResponsibility);
+    }
 }
