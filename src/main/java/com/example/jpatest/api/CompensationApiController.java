@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -34,6 +36,35 @@ public class CompensationApiController {
 //        Long id = compensationService.insert(compensation);
 //        return new CreateCompensationResponse(id);
 //    }
+
+    @GetMapping("/api/v1/voc")
+    public List<Voc> vocV1() {
+        return vocService.findVocList();
+    }
+
+    @GetMapping("/api/v2/voc")
+    public Result vocV2() {
+        List<Voc> findVoc = vocService.findVocList();
+        List<VocDto> collect = findVoc.stream()
+                .map(v -> new VocDto(v.getVocResponsibility()))
+                .collect(Collectors.toList());
+
+        return new Result(collect);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T> {
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class VocDto {
+        private String vocResponsibility;
+    }
+
+
 
     @PostMapping("/api/v2/voc")
     public CreateVocResponse saveVocV2(@RequestBody @Valid CreateVocRequest request) {
