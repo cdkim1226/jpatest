@@ -10,7 +10,7 @@ import static javax.persistence.FetchType.*;
 
 @Entity
 @Getter @Setter
-public class Voc extends BaseTime{
+public class Voc {
 
     @Id @GeneratedValue
     @Column(name = "voc_seq")
