@@ -36,11 +36,21 @@ public class initDb {
             voc.setDeliveryCost(2000L);
             voc.setCompensateExpense(9000L);
             voc.setRegDate(LocalDateTime.now());
-
             em.persist(voc);
 
+            Voc voc2 = new Voc();
+            voc2.setVocResponsibility("고객사");
+            voc2.setVocNote("제품불량");
+            voc2.setSellerCost(20000L);
+            voc2.setManufacturingCost(17000L);
+            voc2.setDeliveryCost(12000L);
+            voc2.setCompensateExpense(19000L);
+            voc2.setRegDate(LocalDateTime.now());
 
+            em.persist(voc2);
         }
+
+
     }
 
 }
