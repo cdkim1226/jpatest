@@ -2,7 +2,9 @@ package com.example.jpatest.api;
 
 
 import com.example.jpatest.domain.Compensation;
+import com.example.jpatest.domain.ProcessStatus;
 import com.example.jpatest.domain.Voc;
+import com.example.jpatest.repository.CompensationRepository;
 import com.example.jpatest.service.CompensationService;
 import com.example.jpatest.service.VocService;
 import lombok.AllArgsConstructor;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +23,7 @@ public class CompensationApiController {
 
     private final CompensationService compensationService;
     private final VocService vocService;
+    private final CompensationRepository compensationRepository;
 
 //    @PostMapping("/api/v1/compensations")
 //    public CreateCompensationResponse saveCompensationV1(@RequestBody @Valid Compensation compensation) {
@@ -113,6 +117,44 @@ public class CompensationApiController {
         }
     }
 
+
+    @GetMapping("api/v2/simple-compensation")
+    public List<SimpleCompensationDto> compensationV2() {
+        List<SimpleCompensationDto> result = compensationRepository.findAll().stream()
+                .map(c -> new SimpleCompensationDto(c))
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
+    @Data
+    static class SimpleCompensationDto {
+        private Long id;
+        private String orderNum;
+        private Long boxCount;
+        private ProcessStatus processStatus;
+        private String vocResponsibility;
+        private String vocNote;
+        private Long sellerCost;
+        private Long manufacturingCost;
+        private Long deliveryCost;
+        private Long compensateExpense;
+        private LocalDateTime regDate;
+
+        public SimpleCompensationDto(Compensation compensation) {
+            id = compensation.getId();
+            orderNum = compensation.getOrder().getOrderNum();
+            boxCount = compensation.getOrder().getBoxCount();
+            processStatus = compensation.getProcessStatus();
+            vocResponsibility = compensation.getVoc().getVocResponsibility();
+            vocNote = compensation.getVoc().getVocNote();
+            sellerCost = compensation.getVoc().getSellerCost();
+            manufacturingCost = compensation.getVoc().getManufacturingCost();
+            deliveryCost = compensation.getVoc().getDeliveryCost();
+            compensateExpense = compensation.getVoc().getCompensateExpense();
+            regDate = compensation.getRegDate();
+        }
+    }
 
 
 
