@@ -5,6 +5,8 @@ import com.example.jpatest.domain.Compensation;
 import com.example.jpatest.domain.ProcessStatus;
 import com.example.jpatest.domain.Voc;
 import com.example.jpatest.repository.CompensationRepository;
+import com.example.jpatest.repository.compensation.simplequery.CompensationSimpleQueryRepository;
+import com.example.jpatest.repository.compensation.simplequery.SimpleCompensationQueryDto;
 import com.example.jpatest.service.CompensationService;
 import com.example.jpatest.service.VocService;
 import lombok.AllArgsConstructor;
@@ -24,6 +26,7 @@ public class CompensationApiController {
     private final CompensationService compensationService;
     private final VocService vocService;
     private final CompensationRepository compensationRepository;
+    private final CompensationSimpleQueryRepository compensationSimpleQueryRepository;
 
 //    @PostMapping("/api/v1/compensations")
 //    public CreateCompensationResponse saveCompensationV1(@RequestBody @Valid Compensation compensation) {
@@ -135,6 +138,11 @@ public class CompensationApiController {
                 .collect(Collectors.toList());
 
         return result;
+    }
+
+    @GetMapping("/api/v4/simple-compensation")
+    public List<SimpleCompensationQueryDto> compensationV4() {
+        return compensationRepository.findCompensationDtos();
     }
 
     @Data
