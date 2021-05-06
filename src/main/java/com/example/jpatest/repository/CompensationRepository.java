@@ -27,5 +27,13 @@ public class CompensationRepository {
         return em.createQuery("select c from Compensation c", Compensation.class)
                 .getResultList();
     }
+
+    public List<Compensation> findAllWithVocOrder() {
+        return em.createQuery(
+                "select c from Compensation c" +
+                        " join fetch c.voc v" +
+                        " join fetch c.order o", Compensation.class
+        ).getResultList();
+    }
 }
 

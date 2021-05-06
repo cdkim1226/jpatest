@@ -118,9 +118,19 @@ public class CompensationApiController {
     }
 
 
-    @GetMapping("api/v2/simple-compensation")
+    @GetMapping("/api/v2/simple-compensation")
     public List<SimpleCompensationDto> compensationV2() {
         List<SimpleCompensationDto> result = compensationRepository.findAll().stream()
+                .map(c -> new SimpleCompensationDto(c))
+                .collect(Collectors.toList());
+
+        return result;
+    }
+
+    @GetMapping("/api/v3/simple-compensation")
+    public List<SimpleCompensationDto> compensationV3() {
+        List<Compensation> compensations = compensationRepository.findAllWithVocOrder();
+        List<SimpleCompensationDto> result = compensations.stream()
                 .map(c -> new SimpleCompensationDto(c))
                 .collect(Collectors.toList());
 

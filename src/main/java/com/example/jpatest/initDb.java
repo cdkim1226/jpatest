@@ -63,6 +63,17 @@ public class initDb {
             em.persist(compensation);
         }
 
+        public void dbInit2() {
+            Order order = createOrder("321-321", 1L);
+            em.persist(order);
+
+            Voc voc = createVoc("매니저", "오배송", 10000L, 7000L, 2000L, 8000L);
+            em.persist(voc);
+
+            Compensation compensation = Compensation.createCompensation(voc, order);
+            em.persist(compensation);
+        }
+
         private Order createOrder(String orderNum, Long boxCount) {
             Order order = new Order();
             order.setOrderNum(orderNum);
