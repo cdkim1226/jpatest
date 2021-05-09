@@ -48,15 +48,15 @@ public class VocService {
         voc.setVocResponsibility(vocResponsibility);
     }
 
-//    @Transactional
-//    public Long voc(Long orderSeq) {
-//
-//        Order order = orderRepository.findOne(orderSeq);
-//
-//        Voc voc = Voc.createVoc(order);
-//
-//        vocRepository.save(voc);
-//
-//        return voc.getId();
-//    }
+    @Transactional
+    public Long voc(Long orderSeq) {
+
+        Order order = orderRepository.findOne(orderSeq);
+
+        Voc voc = Voc.createVoc(order);
+
+        vocRepository.save(voc);
+
+        return voc.getId();
+    }
 }

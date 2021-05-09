@@ -1,6 +1,7 @@
 package com.example.jpatest.api;
 
 import com.example.jpatest.domain.Compensation;
+import com.example.jpatest.domain.Order;
 import com.example.jpatest.domain.ProcessStatus;
 import com.example.jpatest.domain.Voc;
 import com.example.jpatest.repository.CompensationRepository;
@@ -12,6 +13,7 @@ import com.example.jpatest.service.VocService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.jni.Proc;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,14 +38,15 @@ public class VocSimpleApiController {
     public createVocResponse saveVocV2(@RequestBody @Valid CreateVocRequest request) {
 
         Voc voc = new Voc();
-        voc.setOrder(voc.getOrder());
+        Order order = new Order();
+        voc.setOrder(order);
         voc.setVocResponsibility(request.getVocResponsibility());
         voc.setVocNote(request.getVocNote());
         voc.setSellerCost(request.getSellerCost());
         voc.setManufacturingCost(request.getManufacturingCost());
         voc.setDeliveryCost(request.getDeliveryCost());
         voc.setCompensateExpense(request.getCompensateExpense());
-        voc.setRegDate(request.getRegDate());
+        voc.setRegDate(LocalDateTime.now());
 
         Long id = vocService.insert(voc);
         return new createVocResponse(id);
@@ -66,6 +69,7 @@ public class VocSimpleApiController {
         private Long compensateExpense;
         private LocalDateTime regDate;
         private Long orderSeq;
+
     }
 
 

@@ -23,4 +23,8 @@ public class Order {
 
     private LocalDateTime regDate;
 
+    @OneToOne(mappedBy = "order")
+    private Voc voc;
+
+
 }

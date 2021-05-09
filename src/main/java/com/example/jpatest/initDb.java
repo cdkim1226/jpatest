@@ -57,16 +57,18 @@ public class initDb {
             em.persist(order1);
             Order order2 = createOrder("321-321", 1L);
             em.persist(order2);
+            Order order3 = createOrder("1110",2L);
+            em.persist(order3);
 
             Voc voc1 = createVoc(order1);
             em.persist(voc1);
-//            Voc voc2 = createVoc("매니저", "오배송", 10000L, 7000L, 2000L, 8000L);
-//            em.persist(voc2);
+            Voc voc2 = createVoc2(order2);
+            em.persist(voc2);
 
             Compensation compensation1 = Compensation.createCompensation(voc1, order1);
             em.persist(compensation1);
-//            Compensation compensation2 = Compensation.createCompensation(voc2, order2);
-//            em.persist(compensation2);
+            Compensation compensation2 = Compensation.createCompensation(voc2, order2);
+            em.persist(compensation2);
 
         }
 
@@ -74,6 +76,7 @@ public class initDb {
             Order order = new Order();
             order.setOrderNum(orderNum);
             order.setBoxCount(boxCount);
+            order.setRegDate(LocalDateTime.now());
             return order;
         }
 
@@ -88,7 +91,23 @@ public class initDb {
             voc1.setCompensateExpense(19000L);
             voc1.setRegDate(LocalDateTime.now());
             return voc1;
+
         }
+
+        private Voc createVoc2(Order order) {
+            Voc voc2 = new Voc();
+            voc2.setOrder(order);
+            voc2.setVocResponsibility("매니저");
+            voc2.setVocNote("오배송");
+            voc2.setSellerCost(20000L);
+            voc2.setManufacturingCost(17000L);
+            voc2.setDeliveryCost(12000L);
+            voc2.setCompensateExpense(19000L);
+            voc2.setRegDate(LocalDateTime.now());
+            return voc2;
+        }
+
+
 
 
     }
