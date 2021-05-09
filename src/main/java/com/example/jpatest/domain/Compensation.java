@@ -40,7 +40,7 @@ public class Compensation {
 
         compensation.setVoc(voc);
         compensation.setOrder(order);
-        compensation.setProcessStatus(ProcessStatus.COMP);
+        compensation.setProcessStatus(ProcessStatus.READY);
         compensation.setRegDate(LocalDateTime.now());
 
         return compensation;

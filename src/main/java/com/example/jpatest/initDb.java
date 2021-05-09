@@ -58,15 +58,15 @@ public class initDb {
             Order order2 = createOrder("321-321", 1L);
             em.persist(order2);
 
-            Voc voc1 = createVoc("고객사","제품불량",20000L,17000L,12000L,19000L);
+            Voc voc1 = createVoc(order1);
             em.persist(voc1);
-            Voc voc2 = createVoc("매니저", "오배송", 10000L, 7000L, 2000L, 8000L);
-            em.persist(voc2);
+//            Voc voc2 = createVoc("매니저", "오배송", 10000L, 7000L, 2000L, 8000L);
+//            em.persist(voc2);
 
             Compensation compensation1 = Compensation.createCompensation(voc1, order1);
             em.persist(compensation1);
-            Compensation compensation2 = Compensation.createCompensation(voc2, order2);
-            em.persist(compensation2);
+//            Compensation compensation2 = Compensation.createCompensation(voc2, order2);
+//            em.persist(compensation2);
 
         }
 
@@ -77,16 +77,19 @@ public class initDb {
             return order;
         }
 
-        private Voc createVoc(String vocResponsibility, String vocNote, Long sellerCost, Long manufacturingCost, Long deliveryCost, Long compensateExpense) {
-            Voc voc = new Voc();
-            voc.setVocResponsibility(vocResponsibility);
-            voc.setVocNote(vocNote);
-            voc.setSellerCost(sellerCost);
-            voc.setManufacturingCost(manufacturingCost);
-            voc.setDeliveryCost(deliveryCost);
-            voc.setCompensateExpense(compensateExpense);
-            return voc;
+        private Voc createVoc(Order order) {
+            Voc voc1 = new Voc();
+            voc1.setOrder(order);
+            voc1.setVocResponsibility("고객사");
+            voc1.setVocNote("제품불량");
+            voc1.setSellerCost(20000L);
+            voc1.setManufacturingCost(17000L);
+            voc1.setDeliveryCost(12000L);
+            voc1.setCompensateExpense(19000L);
+            voc1.setRegDate(LocalDateTime.now());
+            return voc1;
         }
+
 
     }
 

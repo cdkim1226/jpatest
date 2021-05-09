@@ -1,7 +1,11 @@
 package com.example.jpatest.service;
 
+import com.example.jpatest.domain.Compensation;
+import com.example.jpatest.domain.Order;
 import com.example.jpatest.domain.Voc;
+import com.example.jpatest.repository.OrderRepository;
 import com.example.jpatest.repository.VocRepository;
+import com.example.jpatest.repository.voc.simplequery.VocSimpleQueryRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,8 @@ import java.util.List;
 public class VocService {
 
     private final VocRepository vocRepository;
+    private final OrderRepository orderRepository;
+    private final VocSimpleQueryRepository vocSimpleQueryRepository;
 
     // @RequiredArgsConstructor 가 아래 내용을 추가 해줌
 //    @Autowired
@@ -41,4 +47,16 @@ public class VocService {
         Voc voc = vocRepository.findOne(id);
         voc.setVocResponsibility(vocResponsibility);
     }
+
+//    @Transactional
+//    public Long voc(Long orderSeq) {
+//
+//        Order order = orderRepository.findOne(orderSeq);
+//
+//        Voc voc = Voc.createVoc(order);
+//
+//        vocRepository.save(voc);
+//
+//        return voc.getId();
+//    }
 }

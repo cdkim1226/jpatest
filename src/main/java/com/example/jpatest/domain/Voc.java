@@ -36,4 +36,21 @@ public class Voc {
     private Long compensateExpense;
 
     private LocalDateTime regDate;
+
+
+    public static Voc createVoc(Order order) {
+        Voc voc = new Voc();
+
+        voc.setOrder(order);
+        voc.setVocResponsibility(voc.getVocResponsibility());
+        voc.setVocNote(voc.getVocNote());
+        voc.setSellerCost(voc.getSellerCost());
+        voc.setManufacturingCost(voc.getManufacturingCost());
+        voc.setDeliveryCost(voc.getDeliveryCost());
+        voc.setCompensateExpense(voc.getCompensateExpense());
+        voc.setRegDate(LocalDateTime.now());
+
+        return voc;
+
+    }
 }

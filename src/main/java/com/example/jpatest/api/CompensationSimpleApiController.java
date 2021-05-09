@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-public class CompensationApiController {
+public class CompensationSimpleApiController {
 
     private final CompensationService compensationService;
     private final VocService vocService;

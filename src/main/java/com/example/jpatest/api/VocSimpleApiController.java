@@ -5,13 +5,20 @@ import com.example.jpatest.domain.ProcessStatus;
 import com.example.jpatest.domain.Voc;
 import com.example.jpatest.repository.CompensationRepository;
 import com.example.jpatest.repository.VocRepository;
+import com.example.jpatest.repository.compensation.simplequery.SimpleCompensationQueryDto;
+import com.example.jpatest.repository.voc.simplequery.SimpleVocQueryDto;
+import com.example.jpatest.repository.voc.simplequery.VocSimpleQueryRepository;
+import com.example.jpatest.service.VocService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.jni.Proc;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,22 +27,37 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class VocSimpleApiController {
 
-    private final VocRepository vocRepository;
+    private final VocSimpleQueryRepository vocSimpleQueryRepository;
     private final CompensationRepository compensationRepository;
+    private final VocService vocService;
 
-    @GetMapping("/api/v1/simple-voc")
-    public List<SimpleVocDto> vocV1() {
-        List<Voc> voc = vocRepository.findAll();
-        List<SimpleVocDto> result = voc.stream()
-                .map(v -> new SimpleVocDto(v))
-                .collect(Collectors.toList());
 
-        return result;
+    @PostMapping("/api/v4/voc")
+    public createVocResponse saveVocV2(@RequestBody @Valid CreateVocRequest request) {
+
+        Voc voc = new Voc();
+        voc.setOrder(voc.getOrder());
+        voc.setVocResponsibility(request.getVocResponsibility());
+        voc.setVocNote(request.getVocNote());
+        voc.setSellerCost(request.getSellerCost());
+        voc.setManufacturingCost(request.getManufacturingCost());
+        voc.setDeliveryCost(request.getDeliveryCost());
+        voc.setCompensateExpense(request.getCompensateExpense());
+        voc.setRegDate(request.getRegDate());
+
+        Long id = vocService.insert(voc);
+        return new createVocResponse(id);
     }
 
+    @GetMapping("/api/v4/simple-voc")
+    public List<SimpleVocQueryDto> vocV4() {
+        return vocSimpleQueryRepository.findVocDtos();
+    }
+
+
     @Data
-    static class SimpleVocDto {
-        private Long Id;
+    static class CreateVocRequest {
+        private String orderNum;
         private String vocResponsibility;
         private String vocNote;
         private Long sellerCost;
@@ -43,17 +65,18 @@ public class VocSimpleApiController {
         private Long deliveryCost;
         private Long compensateExpense;
         private LocalDateTime regDate;
+        private Long orderSeq;
+    }
 
-        public SimpleVocDto(Voc voc) {
-            Id = voc.getId();
-            vocResponsibility = voc.getVocResponsibility();
-            vocNote = voc.getVocNote();
-            sellerCost = voc.getSellerCost();
-            manufacturingCost = voc.getManufacturingCost();
-            deliveryCost = voc.getDeliveryCost();
-            compensateExpense = voc.getCompensateExpense();
-            regDate = voc.getRegDate();
+
+    @Data
+    static class createVocResponse {
+        private Long id;
+
+        public createVocResponse(Long id) {
+            this.id = id;
         }
     }
+
 
 }
